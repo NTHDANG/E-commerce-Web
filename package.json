@@ -1,0 +1,19 @@
+{
+  "name": "tiki-monorepo",
+  "version": "1.0.0",
+  "description": "Monorepo for Tiki-like e-commerce application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"pnpm --dir be_tiki dev\" \"pnpm --dir fe_tiki dev\"",
+    "build": "pnpm --dir fe_tiki build",
+    "start": "pnpm --dir be_tiki start",
+    "production": "pnpm --filter be_tiki production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}

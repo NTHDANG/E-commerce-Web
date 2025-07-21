@@ -1,0 +1,43 @@
+# Dependencies
+/node_modules
+/be_tiki/node_modules
+/fe_tiki/node_modules
+
+# Environments
+.env
+
+# Build artifacts
+/dist
+/fe_tiki/dist
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.bak
+*.zip
+*.rar
+*.7z
+*.tar.gz
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Specific files in be_tiki
+/be_tiki/.env
+/be_tiki/datafake.md
+/be_tiki/dbdiagram.md
+/be_tiki/ShopApp.postman_collection.json
+
+# Specific files in root
+/error.md
