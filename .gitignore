@@ -35,6 +35,7 @@ Thumbs.db
 
 # Specific files in be_tiki
 /be_tiki/.env
+/fe_tiki/.env
 /be_tiki/datafake.md
 /be_tiki/dbdiagram.md
 /be_tiki/ShopApp.postman_collection.json
