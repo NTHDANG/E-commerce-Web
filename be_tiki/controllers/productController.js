@@ -235,14 +235,21 @@ export async function updateProduct(req, res) {
       await db.Product.update(updateFields, { where: { id }, transaction: t });
     }
 
-    await handleProductAttributes(id, requestBody.attributes, t);
-    await handleProductVariants(
-      id,
-      requestBody.variants,
-      requestBody.variant_values,
-      requestBody.product_variant_values,
-      t
-    );
+    // Chỉ gọi handleProductAttributes nếu có dữ liệu attributes được cung cấp
+    if (requestBody.attributes && requestBody.attributes.length > 0) {
+      await handleProductAttributes(id, requestBody.attributes, t);
+    }
+
+    // Chỉ gọi handleProductVariants nếu có dữ liệu biến thể được cung cấp
+    if (requestBody.product_variant_values && requestBody.product_variant_values.length > 0) {
+      await handleProductVariants(
+        id,
+        requestBody.variants,
+        requestBody.variant_values,
+        requestBody.product_variant_values,
+        t
+      );
+    }
 
     await t.commit();
 
@@ -284,4 +291,59 @@ export async function deleteProduct(req, res) {
   await t.commit();
 
   res.status(200).json({ message: "Xóa sản phẩm thành công" });
+}
+
+// Hàm tìm kiếm sản phẩm theo tên (cho thanh search)
+export async function searchProducts(req, res) {
+  // Lấy tham số 'name' từ query string của URL. Ví dụ: /products/search?name=áo
+  const { name } = req.query;
+
+  // Nếu không có tham số 'name', trả về lỗi 400 (Bad Request)
+  if (!name) {
+    return res.status(400).json({ message: "Vui lòng cung cấp từ khóa tìm kiếm." });
+  }
+
+  try {
+    // Sử dụng hàm findAndCountAll của Sequelize để tìm kiếm sản phẩm
+    const { count, rows: products } = await db.Product.findAndCountAll({
+      where: {
+        // Điều kiện tìm kiếm: trường 'name' của sản phẩm
+        name: {
+          // Sử dụng toán tử iLike để tìm kiếm không phân biệt chữ hoa, chữ thường (chỉ hoạt động trên PostgreSQL)
+          // Ví dụ: tìm 'áo' sẽ khớp với 'Áo thun', 'áo khoác', v.v.
+          [Op.iLike]: `%${name}%`,
+        },
+      },
+      // Giới hạn số lượng kết quả trả về là 10 để tối ưu hiệu suất
+      limit: 10,
+      // Chỉ lấy những trường cần thiết để hiển thị gợi ý
+      attributes: ["id", "name", "total_ratings"],
+      // Bao gồm cả thông tin ảnh sản phẩm và giá để hiển thị
+      include: [
+        {
+          model: db.ProductImage,
+          as: "product_images",
+          attributes: ["image_url"],
+          // Chỉ lấy 1 ảnh đầu tiên
+          limit: 1,
+        },
+        {
+          model: db.ProductVariantValue,
+          as: "product_variant_values",
+          required: false,
+        },
+      ],
+    });
+
+    // Trả về kết quả thành công với mã 200 (OK)
+    res.status(200).json({
+      message: `Tìm thấy ${count} sản phẩm.`, // Thông báo số lượng sản phẩm tìm được
+      data: products, // Dữ liệu sản phẩm
+    });
+  } catch (error) {
+    // Ghi lại lỗi ra console để debug
+    console.error("Lỗi khi tìm kiếm sản phẩm:", error);
+    // Trả về lỗi 500 (Internal Server Error) nếu có lỗi xảy ra
+    res.status(500).json({ message: "Lỗi máy chủ", error: error.message });
+  }
 }

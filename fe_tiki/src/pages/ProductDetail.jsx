@@ -278,7 +278,7 @@ const ProductDetail = () => {
                     <h2 className="text-sm font-normal text-tiki-text-gray line-clamp-2">
                       {item.name || "Tên không xác định"}
                     </h2>
-                    <div className="flex items-center text-yellow-500 text-xs mt-1">
+                    <div className="flex items-center text-gray-500 text-xs mt-1">
                       {[...Array(5)].map((_, i) => (
                         <FontAwesomeIcon
                           key={`${item.id}-${i}`}
@@ -290,7 +290,7 @@ const ProductDetail = () => {
                           }
                         />
                       ))}{" "}
-                      ({Math.floor(Math.random() * 1000) + 1})
+                      ({item.total_ratings || 0})
                     </div>
                     <p className="text-tiki-red font-bold text-base mt-1">
                       {item.product_variant_values?.[0]?.price?.toLocaleString(

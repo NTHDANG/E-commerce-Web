@@ -72,6 +72,7 @@ export function appRoute(app) {
   );
 
   // product route
+  router.get("/products/search", asyncHandler(productController.searchProducts)); // Thêm route để tìm kiếm sản phẩm
   router.get("/products", asyncHandler(productController.getProducts));
   router.get("/products/:id", asyncHandler(productController.getProductById));
   router.post(

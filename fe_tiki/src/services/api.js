@@ -18,13 +18,49 @@ api.interceptors.request.use((config) => {
 });
 
 // PRODUCT
-export const getProducts = async (page = 1, search = "") => {
-  const response = await api.get(`/products?search=${search}&page=${page}`);
+export const getProducts = async (params = {}) => {
+  // Tạo một URLSearchParams object để dễ dàng xây dựng query string
+  const queryParams = new URLSearchParams();
+  if (params.page) queryParams.append('page', params.page);
+  if (params.search) queryParams.append('search', params.search);
+  if (params.category) queryParams.append('category', params.category);
+  if (params.brand) queryParams.append('brand', params.brand);
+  if (params.limit) queryParams.append('limit', params.limit);
+  // Thêm các tham số khác nếu cần
+
+  const queryString = queryParams.toString();
+  const url = `/products${queryString ? `?${queryString}` : ''}`;
+  const response = await api.get(url);
   return response.data;
 };
 
 export const getProductById = async (id) => {
   const response = await api.get(`/products/${id}`);
+  return response.data;
+};
+
+// Hàm mới để gọi API tìm kiếm sản phẩm
+export const searchProducts = async (name) => {
+  // Nếu không có tên (chuỗi rỗng), không cần gọi API, trả về mảng rỗng
+  if (!name) return { data: [] };
+  // Gọi đến endpoint GET /products/search với query `name`
+  const response = await api.get(`/products/search?name=${name}`);
+  // Trả về dữ liệu từ response
+  return response.data;
+};
+
+export const deleteProduct = async (id) => {
+  const response = await api.delete(`/products/${id}`);
+  return response.data;
+};
+
+export const createProduct = async (productData) => {
+  const response = await api.post("/products", productData);
+  return response.data;
+};
+
+export const updateProduct = async (id, productData) => {
+  const response = await api.put(`/products/${id}`, productData);
   return response.data;
 };
 
@@ -108,6 +144,26 @@ export const getBrands = async (page = 1) => {
   return response.data;
 };
 
+export const getBrandById = async (id) => {
+  const response = await api.get(`/brands/${id}`);
+  return response.data;
+};
+
+export const createBrand = async (data) => {
+  const response = await api.post("/brands", data);
+  return response.data;
+};
+
+export const updateBrand = async (id, data) => {
+  const response = await api.put(`/brands/${id}`, data);
+  return response.data;
+};
+
+export const deleteBrand = async (id) => {
+  const response = await api.delete(`/brands/${id}`);
+  return response.data;
+};
+
 // CATEGORY
 export const getCategories = async () => {
   const allCategories = [];
@@ -120,6 +176,26 @@ export const getCategories = async () => {
     page++;
   }
   return allCategories;
+};
+
+export const getCategoryById = async (id) => {
+  const response = await api.get(`/categories/${id}`);
+  return response.data;
+};
+
+export const createCategory = async (data) => {
+  const response = await api.post("/categories", data);
+  return response.data;
+};
+
+export const updateCategory = async (id, data) => {
+  const response = await api.put(`/categories/${id}`, data);
+  return response.data;
+};
+
+export const deleteCategory = async (id) => {
+  const response = await api.delete(`/categories/${id}`);
+  return response.data;
 };
 
 // BANNER
