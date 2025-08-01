@@ -21,6 +21,7 @@ import AdminBrandForm from "./pages/Admin/AdminBrandForm";
 import AdminOrderList from "./pages/Admin/AdminOrderList";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Chatbox from "./components/Chatbox"; // Import component Chatbox
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
         </Route>
       </Routes>
       <ToastContainer autoClose={2000} />
+      <Chatbox /> {/* Thêm Chatbox vào đây */}
     </Router>
   );
 }
