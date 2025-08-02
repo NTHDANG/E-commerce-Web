@@ -93,9 +93,6 @@ importers:
       axios:
         specifier: ^1.9.0
         version: 1.10.0
-      emoji-mart:
-        specifier: ^5.6.0
-        version: 5.6.0
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -1595,9 +1592,6 @@ packages:
 
   electron-to-chromium@1.5.187:
     resolution: {integrity: sha512-cl5Jc9I0KGUoOoSbxvTywTa40uspGJt/BDBoDLoxJRSBpWh4FFXBsjNRHfQrONsV/OoEjDfHUmZQa2d6Ze4YgA==}
-
-  emoji-mart@5.6.0:
-    resolution: {integrity: sha512-eJp3QRe79pjwa+duv+n7+5YsNhRcMl812EcFVwrnRvYKoNPoQb5qxU8DG6Bgwji0akHdp6D4Ln6tYLG58MFSow==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -4882,8 +4876,6 @@ snapshots:
   ee-first@1.1.1: {}
 
   electron-to-chromium@1.5.187: {}
-
-  emoji-mart@5.6.0: {}
 
   emoji-regex@8.0.0: {}
 
